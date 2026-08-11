@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>The Microcap Minute Global</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="One door to everything The Microcap Minute Global publishes: the newsletter, the Smart Investor Tracker, the Classroom, the Macro dashboard, and our policies.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111111'/%3E%3Cg fill='none' stroke='%23D9A400' stroke-width='2.6'%3E%3Ccircle cx='32' cy='30' r='17'/%3E%3Cellipse cx='32' cy='30' rx='8' ry='17' stroke-width='1.7'/%3E%3Cellipse cx='32' cy='30' rx='17' ry='6.5' stroke-width='1.7'/%3E%3Cpath d='M15 30h34' stroke-width='1.7'/%3E%3C/g%3E%3Cg stroke='%23D9A400'%3E%3Cpath d='M16 47 L44 40 L52 24' fill='none' stroke-width='3'/%3E%3Cpath d='M44 22 L52 24 L50 32' fill='none' stroke-width='3'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,620;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0d0d0e; --ink2: #141416; --card: rgba(24,24,26,.92);
+  --gold: #D9A400; --gold2: #F2B400; --gold-dim: rgba(217,164,0,.28);
+  --paper: #f4f1e8; --mute: #9b968a; --line: rgba(217,164,0,.22);
+  --serif: "Fraunces", Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ink); color: var(--paper); font-family: var(--sans);
+  -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none;
+  background: radial-gradient(1100px 500px at 50% -8%, rgba(217,164,0,.10), transparent 60%),
+              radial-gradient(800px 400px at 85% 110%, rgba(217,164,0,.06), transparent 60%); }
+a { color: var(--gold2); text-decoration: none; }
+.wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem; }
+
+header .wrap { display: flex; align-items: center; gap: .8rem; padding-top: 1.4rem; padding-bottom: 1.4rem; }
+.mark { width: 44px; height: 44px; flex: none; }
+.wordmark { font-family: var(--serif); font-weight: 700; font-size: 1.25rem; letter-spacing: .01em; color: var(--paper); }
+.wordmark b { color: var(--gold); font-weight: 700; }
+.tagline { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-top: .15rem; }
+header nav { margin-left: auto; font-size: .85rem; }
+header nav a { color: var(--mute); margin-left: 1.2rem; }
+header nav a:hover { color: var(--paper); }
+
+.hero { text-align: center; padding: 2.6rem 0 1rem; }
+.kicker { font-size: .72rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+h1 { font-family: var(--serif); font-weight: 620; font-size: clamp(2rem, 5.4vw, 3.4rem);
+  letter-spacing: -.015em; line-height: 1.06; margin: .7rem auto .9rem; max-width: 20ch; }
+.lede { color: var(--mute); max-width: 44rem; margin: 0 auto; font-size: 1.05rem; line-height: 1.65; }
+
+/* the rotating box */
+.stage { perspective: 1200px; height: 380px; display: flex; align-items: center; justify-content: center; margin: 1.2rem 0 0; }
+.cube { position: relative; width: 250px; height: 250px; transform-style: preserve-3d;
+  animation: spin 30s linear infinite; }
+.stage:hover .cube, .cube:focus-within { animation-play-state: paused; }
+@keyframes spin { from { transform: rotateX(-14deg) rotateY(0deg); } to { transform: rotateX(-14deg) rotateY(360deg); } }
+.face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .55rem; padding: 1.4rem; text-align: center; background: var(--card);
+  border: 1px solid var(--line); border-radius: 14px; color: var(--paper);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.02), 0 30px 60px -30px rgba(0,0,0,.8);
+  backdrop-filter: blur(2px); transition: border-color .2s; }
+.face:hover { border-color: var(--gold); }
+.face .fname { font-family: var(--serif); font-weight: 620; font-size: 1.35rem; line-height: 1.15; }
+.face .fdesc { color: var(--mute); font-size: .82rem; line-height: 1.5; }
+.face .fgo { color: var(--gold2); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.f1 { transform: rotateY(0deg) translateZ(125px); }
+.f2 { transform: rotateY(60deg) translateZ(125px); }
+.f3 { transform: rotateY(120deg) translateZ(125px); }
+.f4 { transform: rotateY(180deg) translateZ(125px); }
+.f5 { transform: rotateY(240deg) translateZ(125px); }
+.f6 { transform: rotateY(300deg) translateZ(125px); }
+.floor { width: 300px; height: 26px; margin: -26px auto 0; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(217,164,0,.18), transparent); }
+
+/* destination cards */
+.cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: .9rem; padding: 2.2rem 0 1rem; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.05rem 1rem 1rem;
+  color: var(--paper); display: flex; flex-direction: column; gap: .35rem; transition: border-color .2s, transform .2s; }
+.card:hover { border-color: var(--gold); transform: translateY(-2px); }
+.card .cname { font-family: var(--serif); font-weight: 620; font-size: 1.02rem; }
+.card .cdesc { color: var(--mute); font-size: .76rem; line-height: 1.5; flex: 1; }
+.card .cgo { color: var(--gold2); font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+
+footer { border-top: 1px solid rgba(217,164,0,.14); margin-top: 2.4rem; }
+footer .wrap { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; padding-top: 1.3rem; padding-bottom: 1.6rem;
+  color: var(--mute); font-size: .78rem; }
+footer .brandline { font-family: var(--serif); color: var(--gold); letter-spacing: .04em; }
+footer a { color: var(--mute); } footer a:hover { color: var(--paper); }
+footer .spacer { flex: 1; }
+
+@media (max-width: 860px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+  .stage { height: 330px; }
+  .cube { width: 210px; height: 210px; }
+  .f1 { transform: rotateY(0deg) translateZ(105px); } .f2 { transform: rotateY(60deg) translateZ(105px); }
+  .f3 { transform: rotateY(120deg) translateZ(105px); } .f4 { transform: rotateY(180deg) translateZ(105px); }
+  .f5 { transform: rotateY(240deg) translateZ(105px); } .f6 { transform: rotateY(300deg) translateZ(105px); }
+}
+@media (max-width: 520px) { .cards { grid-template-columns: 1fr; } header nav { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .cube { animation: none; transform: rotateX(-14deg) rotateY(-24deg); }
+}
+</style></head><body>
+
+<header><div class="wrap">
+  <svg class="mark" viewBox="0 0 64 64" role="img" aria-label="The Microcap Minute Global">
+    <g fill="none" stroke="#D9A400" stroke-width="2.6">
+      <circle cx="32" cy="30" r="19"/>
+      <ellipse cx="32" cy="30" rx="9" ry="19" stroke-width="1.7"/>
+      <ellipse cx="32" cy="30" rx="19" ry="7.5" stroke-width="1.7"/>
+      <path d="M13 30h38" stroke-width="1.7"/>
+    </g>
+    <g stroke="#F2B400" fill="none">
+      <path d="M15 49 L42 42 L53 22" stroke-width="3.2"/>
+      <path d="M44 20 L53 22 L51 31" stroke-width="3.2"/>
+    </g>
+    <g fill="#D9A400">
+      <rect x="18" y="46" width="4" height="6" rx="1"/><rect x="26" y="44" width="4" height="7" rx="1"/>
+      <rect x="34" y="41" width="4" height="8" rx="1"/><rect x="42" y="37" width="4" height="9" rx="1"/>
+    </g>
+  </svg>
+  <div>
+    <span class="wordmark">The Microcap Minute <b>Global</b></span>
+    <span class="tagline">Global insights in minutes</span>
+  </div>
+  <nav><a href="https://policies.themicrocapminute.in/">Policies</a><a href="https://www.themicrocapminute.in/">Newsletter</a></nav>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <p class="kicker">One door to everything</p>
+  <h1>Real filings. Real analysis. Real edge.</h1>
+  <p class="lede">Everything we publish, in one place. The weekly newsletter, the smart
+  money trackers, the free classroom, and the macro dashboard, each read from public
+  records every morning and written in plain English.</p>
+
+  <div class="stage" aria-hidden="false">
+    <div class="cube">
+      <a class="face f1" href="https://www.themicrocapminute.in/">
+        <span class="fname">The Newsletter</span>
+        <span class="fdesc">The Microcap Minute Global, every week. Filings first, always.</span>
+        <span class="fgo">Read &rarr;</span></a>
+      <a class="face f2" href="https://tracker.themicrocapminute.in/">
+        <span class="fname">Smart Investor Tracker</span>
+        <span class="fdesc">What the smart money filed while you slept, every morning.</span>
+        <span class="fgo">Open &rarr;</span></a>
+      <a class="face f3" href="https://school.themicrocapminute.in/">
+        <span class="fname">The Classroom</span>
+        <span class="fdesc">Markets, filings, and how to read them. A free course.</span>
+        <span class="fgo">Learn &rarr;</span></a>
+      <a class="face f4" href="https://macro.themicrocapminute.in/">
+        <span class="fname">Macro Dashboard</span>
+        <span class="fdesc">America&#39;s report card, in plain English, daily.</span>
+        <span class="fgo">See &rarr;</span></a>
+      <a class="face f5" href="https://policies.themicrocapminute.in/">
+        <span class="fname">Policies</span>
+        <span class="fdesc">The rules we run on, in the open, in our own words.</span>
+        <span class="fgo">Read &rarr;</span></a>
+      <div class="face f6" aria-hidden="true">
+        <svg width="72" height="72" viewBox="0 0 64 64">
+          <g fill="none" stroke="#D9A400" stroke-width="2.6">
+            <circle cx="32" cy="30" r="19"/>
+            <ellipse cx="32" cy="30" rx="9" ry="19" stroke-width="1.7"/>
+            <ellipse cx="32" cy="30" rx="19" ry="7.5" stroke-width="1.7"/>
+            <path d="M13 30h38" stroke-width="1.7"/>
+          </g>
+          <g stroke="#F2B400" fill="none">
+            <path d="M15 49 L42 42 L53 22" stroke-width="3.2"/>
+            <path d="M44 20 L53 22 L51 31" stroke-width="3.2"/>
+          </g>
+        </svg>
+        <span class="fdesc">Global insights in minutes</span>
+      </div>
+    </div>
+  </div>
+  <div class="floor"></div>
+
+  <div class="cards">
+    <a class="card" href="https://www.themicrocapminute.in/">
+      <span class="cname">The Newsletter</span>
+      <span class="cdesc">One sharp issue a week on US markets, for ordinary investors.</span>
+      <span class="cgo">themicrocapminute.in &rarr;</span></a>
+    <a class="card" href="https://tracker.themicrocapminute.in/">
+      <span class="cname">Smart Investor Tracker</span>
+      <span class="cdesc">Superinvestor filings, insider buys, special situations, IPOs, the cabinet, the White House.</span>
+      <span class="cgo">tracker &rarr;</span></a>
+    <a class="card" href="https://school.themicrocapminute.in/">
+      <span class="cname">The Classroom</span>
+      <span class="cdesc">A free course on reading filings and understanding markets, with audio and video.</span>
+      <span class="cgo">school &rarr;</span></a>
+    <a class="card" href="https://macro.themicrocapminute.in/">
+      <span class="cname">Macro Dashboard</span>
+      <span class="cdesc">The US economy in eight numbers, plus the Iran cost clock. Plain English, daily.</span>
+      <span class="cgo">macro &rarr;</span></a>
+    <a class="card" href="https://policies.themicrocapminute.in/">
+      <span class="cname">Policies</span>
+      <span class="cdesc">How we collect data, what we never do with it, refunds, terms, all in the open.</span>
+      <span class="cgo">policies &rarr;</span></a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span class="brandline">The Microcap Minute Global</span>
+  <span>Real filings. Real analysis. Real edge.</span>
+  <span class="spacer"></span>
+  <a href="https://policies.themicrocapminute.in/">Policies</a>
+  <span>&copy; 2026 The Microcap Minute Global</span>
+</div></footer>
+
+</body></html>
