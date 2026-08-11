@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111111'/%3E%3Cg fill='none' stroke='%23D9A400' stroke-width='2.6'%3E%3Ccircle cx='32' cy='30' r='17'/%3E%3Cellipse cx='32' cy='30' rx='8' ry='17' stroke-width='1.7'/%3E%3Cellipse cx='32' cy='30' rx='17' ry='6.5' stroke-width='1.7'/%3E%3Cpath d='M15 30h34' stroke-width='1.7'/%3E%3C/g%3E%3Cg stroke='%23D9A400'%3E%3Cpath d='M16 47 L44 40 L52 24' fill='none' stroke-width='3'/%3E%3Cpath d='M44 22 L52 24 L50 32' fill='none' stroke-width='3'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,620;9..144,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,620;0,9..144,700;1,9..144,400;1,9..144,560&display=swap" rel="stylesheet">
 <style>
 :root {
   --ink: #0d0d0e; --ink2: #141416; --card: rgba(24,24,26,.92);
@@ -22,7 +22,13 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none;
   background: radial-gradient(1100px 500px at 50% -8%, rgba(217,164,0,.10), transparent 60%),
               radial-gradient(800px 400px at 85% 110%, rgba(217,164,0,.06), transparent 60%); }
 a { color: var(--gold2); text-decoration: none; }
-.wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem; }
+.wrap { max-width: 74rem; margin: 0 auto; padding: 0 1.5rem; }
+
+/* load-in reveal */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0s); }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+}
 
 header .wrap { display: flex; align-items: center; gap: .8rem; padding-top: 1.4rem; padding-bottom: 1.4rem; }
 .mark { width: 44px; height: 44px; flex: none; }
@@ -33,63 +39,89 @@ header nav { margin-left: auto; font-size: .85rem; }
 header nav a { color: var(--mute); margin-left: 1.2rem; }
 header nav a:hover { color: var(--paper); }
 
-.hero { text-align: center; padding: 2.6rem 0 1rem; }
-.kicker { font-size: .72rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
-h1 { font-family: var(--serif); font-weight: 620; font-size: clamp(2rem, 5.4vw, 3.4rem);
-  letter-spacing: -.015em; line-height: 1.06; margin: .7rem auto .9rem; max-width: 20ch; }
-.lede { color: var(--mute); max-width: 44rem; margin: 0 auto; font-size: 1.05rem; line-height: 1.65; }
+/* the live tape */
+.tape { display: flex; align-items: stretch; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  background: rgba(20,20,22,.55); }
+.tape-label { flex: none; display: flex; align-items: center; gap: .4rem; padding: .6rem 1rem;
+  border-right: 1px solid var(--line); background: var(--ink); position: relative; z-index: 2;
+  font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+.tape-label b { color: var(--gold2); }
+.tape-label .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold2); flex: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .tape-label .dot { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+}
+.tape-view { flex: 1; overflow: hidden; display: flex; align-items: center; }
+.tape-track { display: inline-flex; align-items: center; white-space: nowrap; will-change: transform; }
+@media (prefers-reduced-motion: no-preference) {
+  .tape-track { animation: tapemove 46s linear infinite; }
+  .tape-view:hover .tape-track { animation-play-state: paused; }
+  @keyframes tapemove { to { transform: translateX(-50%); } }
+}
+@media (prefers-reduced-motion: reduce) { .tape-view { overflow-x: auto; } }
+.ti { font-size: .8rem; color: var(--mute); }
+.ti b { color: var(--gold); font-weight: 800; font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; margin-right: .5rem; }
+.iranval { color: var(--paper); font-variant-numeric: tabular-nums; }
+.tsep { width: 4px; height: 4px; background: var(--gold); transform: rotate(45deg); margin: 0 1.5rem; opacity: .55; flex: none; }
 
-/* the rotating box */
-.stage { perspective: 1200px; height: 380px; display: flex; align-items: center; justify-content: center; margin: 1.2rem 0 0; }
-.cube { position: relative; width: 250px; height: 250px; transform-style: preserve-3d;
-  animation: spin 30s linear infinite; }
-.stage:hover .cube, .cube:focus-within { animation-play-state: paused; }
-@keyframes spin { from { transform: rotateX(-14deg) rotateY(0deg); } to { transform: rotateX(-14deg) rotateY(360deg); } }
-.face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: .55rem; padding: 1.4rem; text-align: center; background: var(--card);
-  border: 1px solid var(--line); border-radius: 14px; color: var(--paper);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.02), 0 30px 60px -30px rgba(0,0,0,.8);
-  backdrop-filter: blur(2px); transition: border-color .2s; }
-.face:hover { border-color: var(--gold); }
-.face .fname { font-family: var(--serif); font-weight: 620; font-size: 1.35rem; line-height: 1.15; }
-.face .fdesc { color: var(--mute); font-size: .82rem; line-height: 1.5; }
-.face .fgo { color: var(--gold2); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-.f1 { transform: rotateY(0deg) translateZ(125px); }
-.f2 { transform: rotateY(60deg) translateZ(125px); }
-.f3 { transform: rotateY(120deg) translateZ(125px); }
-.f4 { transform: rotateY(180deg) translateZ(125px); }
-.f5 { transform: rotateY(240deg) translateZ(125px); }
-.f6 { transform: rotateY(300deg) translateZ(125px); }
-.floor { width: 300px; height: 26px; margin: -26px auto 0; border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(217,164,0,.18), transparent); }
+/* hero */
+.hero { max-width: 74rem; margin: 0 auto; padding: 2.8rem 1.5rem 1.2rem;
+  display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);
+  grid-template-areas: "text stage" "dir stage"; column-gap: 3rem; }
+.hero-text { grid-area: text; }
+.kicker { font-size: .72rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin: 0; }
+h1 { font-family: var(--serif); font-weight: 620; font-size: clamp(2.3rem, 4.6vw, 3.6rem);
+  letter-spacing: -.015em; line-height: 1.05; margin: .8rem 0 1rem; max-width: 16ch; }
+h1 em { font-style: italic; font-weight: 560; color: var(--gold); }
+.lede { color: var(--mute); max-width: 34rem; margin: 0; font-size: 1.04rem; line-height: 1.68; }
 
-/* destination cards */
-.cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: .9rem; padding: 2.2rem 0 1rem; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.05rem 1rem 1rem;
-  color: var(--paper); display: flex; flex-direction: column; gap: .35rem; transition: border-color .2s, transform .2s; }
-.card:hover { border-color: var(--gold); transform: translateY(-2px); }
-.card .cname { font-family: var(--serif); font-weight: 620; font-size: 1.02rem; }
-.card .cdesc { color: var(--mute); font-size: .76rem; line-height: 1.5; flex: 1; }
-.card .cgo { color: var(--gold2); font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+/* the globe */
+.stage { grid-area: stage; position: relative; min-height: 430px; display: flex; align-items: center; justify-content: center; }
+#embers { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.globe-wrap { position: relative; z-index: 2; width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle at 42% 40%, rgba(23,23,26,.6), rgba(12,12,14,.92) 72%);
+  box-shadow: 0 0 0 1px rgba(217,164,0,.22), 0 26px 70px -20px rgba(0,0,0,.9), 0 0 120px -28px rgba(217,164,0,.5); }
+#globe, .globe-mark { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.globe-mark { pointer-events: none; filter: drop-shadow(0 2px 6px rgba(0,0,0,.55)); transform: scale(1.145); transform-origin: 50% 46.9%; }
+.stage-cap { position: absolute; bottom: 1.2rem; left: 0; right: 0; text-align: center; margin: 0;
+  font-size: .64rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--mute); }
+.stage-cap b { color: var(--gold); }
 
-footer { border-top: 1px solid rgba(217,164,0,.14); margin-top: 2.4rem; }
+/* the directory */
+.directory { grid-area: dir; margin-top: 1.9rem; border-bottom: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: 2.5rem minmax(0,1fr) auto 1.5rem; align-items: baseline;
+  gap: 0 1rem; padding: .95rem .6rem .95rem 0; border-top: 1px solid var(--line); color: var(--paper);
+  transition: background .2s, border-color .2s; }
+.row:hover { background: linear-gradient(90deg, rgba(217,164,0,.08), transparent 60%); border-top-color: var(--gold); }
+.num { font-family: var(--serif); font-style: italic; color: var(--gold); font-size: .95rem; }
+.rname { font-family: var(--serif); font-weight: 620; font-size: 1.22rem; letter-spacing: -.005em; display: block; }
+.row:hover .rname { color: #fff; }
+.rdesc { color: var(--mute); font-size: .8rem; line-height: 1.5; display: block; margin-top: .15rem; max-width: 30rem; }
+.rstat { color: var(--gold); font-size: .64rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase;
+  white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rarrow { color: var(--gold2); font-size: 1.05rem; transition: transform .2s; }
+.row:hover .rarrow { transform: translateX(5px); }
+
+footer { border-top: 1px solid rgba(217,164,0,.14); margin-top: 2.6rem; }
 footer .wrap { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; padding-top: 1.3rem; padding-bottom: 1.6rem;
   color: var(--mute); font-size: .78rem; }
 footer .brandline { font-family: var(--serif); color: var(--gold); letter-spacing: .04em; }
 footer a { color: var(--mute); } footer a:hover { color: var(--paper); }
 footer .spacer { flex: 1; }
 
-@media (max-width: 860px) {
-  .cards { grid-template-columns: 1fr 1fr; }
-  .stage { height: 330px; }
-  .cube { width: 210px; height: 210px; }
-  .f1 { transform: rotateY(0deg) translateZ(105px); } .f2 { transform: rotateY(60deg) translateZ(105px); }
-  .f3 { transform: rotateY(120deg) translateZ(105px); } .f4 { transform: rotateY(180deg) translateZ(105px); }
-  .f5 { transform: rotateY(240deg) translateZ(105px); } .f6 { transform: rotateY(300deg) translateZ(105px); }
+@media (max-width: 920px) {
+  .hero { grid-template-columns: 1fr; grid-template-areas: "text" "stage" "dir"; padding-top: 2.2rem; }
+  .stage { min-height: 340px; margin: .6rem 0 0; flex-direction: column; }
+  .globe-wrap { width: 210px; height: 210px; }
+  .stage-cap { position: static; margin-top: 1.1rem; }
+  #embers { height: 280px; top: 0; bottom: auto; }
 }
-@media (max-width: 520px) { .cards { grid-template-columns: 1fr; } header nav { display: none; } }
-@media (prefers-reduced-motion: reduce) {
-  .cube { animation: none; transform: rotateX(-14deg) rotateY(-24deg); }
+@media (max-width: 600px) {
+  .tl-long { display: none; }
+  .row { grid-template-columns: 1.8rem minmax(0,1fr) 1.2rem; }
+  .rstat { display: none; }
+  .rname { font-size: 1.1rem; }
+  header nav { display: none; }
 }
 </style></head><body>
 
@@ -114,80 +146,85 @@ footer .spacer { flex: 1; }
     <span class="wordmark">The Microcap Minute <b>Global</b></span>
     <span class="tagline">Global insights in minutes</span>
   </div>
-  <nav><a href="https://policies.themicrocapminute.in/">Policies</a><a href="https://www.themicrocapminute.in/">Newsletter</a></nav>
+  <nav><a href="https://www.themicrocapminute.in/">Newsletter</a><a href="https://tracker.themicrocapminute.in/">Tracker</a><a href="https://policies.themicrocapminute.in/">Policies</a></nav>
 </div></header>
 
-<section class="hero"><div class="wrap">
-  <p class="kicker">One door to everything</p>
-  <h1>Real filings. Real analysis. Real edge.</h1>
-  <p class="lede">Everything we publish, in one place. The weekly newsletter, the smart
-  money trackers, the free classroom, and the macro dashboard, each read from public
-  records every morning and written in plain English.</p>
+<div class="tape reveal" style="--d:.05s" aria-label="Live data from our sites">
+  <span class="tape-label"><span class="dot"></span><b>Live</b><span class="tl-long">&nbsp;from the public record</span></span>
+  <div class="tape-view"><div class="tape-track" id="tapeTrack">
+    <span class="ti"><b>Estimate</b> Iran operations cost clock <span class="iranval">$169.9 B</span> and counting</span><span class="tsep"></span>
+    <span class="ti"><b>Tracker</b> 30 superinvestors under watch</span><span class="tsep"></span>
+    <span class="ti"><b>Tracker</b> S&amp;P 500 insider buys, read every morning</span><span class="tsep"></span>
+    <span class="ti"><b>School</b> 62 chapters, free forever</span><span class="tsep"></span>
+    <span class="ti"><b>House rule</b> every number links to its source</span><span class="tsep"></span>
+    <span class="ti"><b>Estimate</b> Iran operations cost clock <span class="iranval">$169.9 B</span> and counting</span><span class="tsep"></span>
+    <span class="ti"><b>Tracker</b> 30 superinvestors under watch</span><span class="tsep"></span>
+    <span class="ti"><b>Tracker</b> S&amp;P 500 insider buys, read every morning</span><span class="tsep"></span>
+    <span class="ti"><b>School</b> 62 chapters, free forever</span><span class="tsep"></span>
+    <span class="ti"><b>House rule</b> every number links to its source</span><span class="tsep"></span>
+  </div></div>
+</div>
 
-  <div class="stage" aria-hidden="false">
-    <div class="cube">
-      <a class="face f1" href="https://www.themicrocapminute.in/">
-        <span class="fname">The Newsletter</span>
-        <span class="fdesc">The Microcap Minute Global, every week. Filings first, always.</span>
-        <span class="fgo">Read &rarr;</span></a>
-      <a class="face f2" href="https://tracker.themicrocapminute.in/">
-        <span class="fname">Smart Investor Tracker</span>
-        <span class="fdesc">What the smart money filed while you slept, every morning.</span>
-        <span class="fgo">Open &rarr;</span></a>
-      <a class="face f3" href="https://school.themicrocapminute.in/">
-        <span class="fname">The Classroom</span>
-        <span class="fdesc">Markets, filings, and how to read them. A free course.</span>
-        <span class="fgo">Learn &rarr;</span></a>
-      <a class="face f4" href="https://macro.themicrocapminute.in/">
-        <span class="fname">Macro Dashboard</span>
-        <span class="fdesc">America&#39;s report card, in plain English, daily.</span>
-        <span class="fgo">See &rarr;</span></a>
-      <a class="face f5" href="https://policies.themicrocapminute.in/">
-        <span class="fname">Policies</span>
-        <span class="fdesc">The rules we run on, in the open, in our own words.</span>
-        <span class="fgo">Read &rarr;</span></a>
-      <div class="face f6" aria-hidden="true">
-        <svg width="72" height="72" viewBox="0 0 64 64">
-          <g fill="none" stroke="#D9A400" stroke-width="2.6">
-            <circle cx="32" cy="30" r="19"/>
-            <ellipse cx="32" cy="30" rx="9" ry="19" stroke-width="1.7"/>
-            <ellipse cx="32" cy="30" rx="19" ry="7.5" stroke-width="1.7"/>
-            <path d="M13 30h38" stroke-width="1.7"/>
-          </g>
-          <g stroke="#F2B400" fill="none">
-            <path d="M15 49 L42 42 L53 22" stroke-width="3.2"/>
-            <path d="M44 20 L53 22 L51 31" stroke-width="3.2"/>
-          </g>
-        </svg>
-        <span class="fdesc">Global insights in minutes</span>
-      </div>
+<section class="hero">
+  <div class="hero-text reveal" style="--d:.1s">
+    <p class="kicker">One door to everything</p>
+    <h1>Real filings. <em>Real analysis.</em> Real edge.</h1>
+    <p class="lede">Everything we publish, in one place. The weekly newsletter, the smart
+    money trackers, the free classroom, and the macro dashboard, each read from public
+    records every morning and written in plain English.</p>
+  </div>
+
+  <div class="stage reveal" style="--d:.25s">
+    <canvas id="embers" aria-hidden="true"></canvas>
+    <div class="globe-wrap">
+      <canvas id="globe" role="img" aria-label="A slowly rotating globe in gold"></canvas>
+      <svg class="globe-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <g stroke="#F2B400" fill="none">
+          <path d="M15 49 L42 42 L53 22" stroke-width="3.2"/>
+          <path d="M44 20 L53 22 L51 31" stroke-width="3.2"/>
+        </g>
+        <g fill="#D9A400">
+          <rect x="18" y="46" width="4" height="6" rx="1"/><rect x="26" y="44" width="4" height="7" rx="1"/>
+          <rect x="34" y="41" width="4" height="8" rx="1"/><rect x="42" y="37" width="4" height="9" rx="1"/>
+        </g>
+      </svg>
     </div>
+    <p class="stage-cap">The public record, <b>read every morning</b></p>
   </div>
-  <div class="floor"></div>
 
-  <div class="cards">
-    <a class="card" href="https://www.themicrocapminute.in/">
-      <span class="cname">The Newsletter</span>
-      <span class="cdesc">One sharp issue a week on US markets, for ordinary investors.</span>
-      <span class="cgo">themicrocapminute.in &rarr;</span></a>
-    <a class="card" href="https://tracker.themicrocapminute.in/">
-      <span class="cname">Smart Investor Tracker</span>
-      <span class="cdesc">Superinvestor filings, insider buys, special situations, IPOs, the cabinet, the White House.</span>
-      <span class="cgo">tracker &rarr;</span></a>
-    <a class="card" href="https://school.themicrocapminute.in/">
-      <span class="cname">The Classroom</span>
-      <span class="cdesc">A free course on reading filings and understanding markets, with audio and video.</span>
-      <span class="cgo">school &rarr;</span></a>
-    <a class="card" href="https://macro.themicrocapminute.in/">
-      <span class="cname">Macro Dashboard</span>
-      <span class="cdesc">The US economy in eight numbers, plus the Iran cost clock. Plain English, daily.</span>
-      <span class="cgo">macro &rarr;</span></a>
-    <a class="card" href="https://policies.themicrocapminute.in/">
-      <span class="cname">Policies</span>
-      <span class="cdesc">How we collect data, what we never do with it, refunds, terms, all in the open.</span>
-      <span class="cgo">policies &rarr;</span></a>
-  </div>
-</div></section>
+  <nav class="directory reveal" style="--d:.4s" aria-label="Our sites">
+    <a class="row" href="https://www.themicrocapminute.in/">
+      <span class="num">01</span>
+      <span><span class="rname">The Newsletter</span>
+      <span class="rdesc">One sharp issue a week on US markets, for ordinary investors.</span></span>
+      <span class="rstat">weekly &middot; free</span>
+      <span class="rarrow">&rarr;</span></a>
+    <a class="row" href="https://tracker.themicrocapminute.in/">
+      <span class="num">02</span>
+      <span><span class="rname">Smart Investor Tracker</span>
+      <span class="rdesc">What the smart money filed while you slept. Nine desks, every morning.</span></span>
+      <span class="rstat" id="statTracker">updated every morning</span>
+      <span class="rarrow">&rarr;</span></a>
+    <a class="row" href="https://school.themicrocapminute.in/">
+      <span class="num">03</span>
+      <span><span class="rname">The Classroom</span>
+      <span class="rdesc">Markets and filings, taught like a story. With audio and video.</span></span>
+      <span class="rstat">62 chapters &middot; free</span>
+      <span class="rarrow">&rarr;</span></a>
+    <a class="row" href="https://macro.themicrocapminute.in/">
+      <span class="num">04</span>
+      <span><span class="rname">Macro Dashboard</span>
+      <span class="rdesc">America&#39;s report card in plain English, plus the Iran cost clock.</span></span>
+      <span class="rstat" id="statMacro">updated daily</span>
+      <span class="rarrow">&rarr;</span></a>
+    <a class="row" href="https://policies.themicrocapminute.in/">
+      <span class="num">05</span>
+      <span><span class="rname">Policies</span>
+      <span class="rdesc">How we collect data, what we never do with it, refunds, terms. In the open.</span></span>
+      <span class="rstat">20 pages &middot; plain english</span>
+      <span class="rarrow">&rarr;</span></a>
+  </nav>
+</section>
 
 <footer><div class="wrap">
   <span class="brandline">The Microcap Minute Global</span>
@@ -196,5 +233,187 @@ footer .spacer { flex: 1; }
   <a href="https://policies.themicrocapminute.in/">Policies</a>
   <span>&copy; 2026 The Microcap Minute Global</span>
 </div></footer>
+
+<script>
+/* land dots: lat,lon pairs x2, on a 3 degree grid (Natural Earth 110m land) */
+var LAND = [-109,-140,-109,-135,-104,-150,-104,-145,-104,-140,-99,-150,-99,-145,-99,-140,-99,140,-94,-145,-94,-140,-94,-135,-89,-145,-89,-140,-89,-135,-89,340,-84,-145,-84,-140,-84,-135,-84,-130,-84,295,-84,345,-79,-145,-79,-140,-79,-135,-79,-130,-79,-125,-79,350,-74,-145,-74,-140,-74,-135,-74,-130,-74,-125,-74,-120,-74,-115,-74,280,-74,285,-74,290,-74,295,-74,350,-69,-140,-69,-135,-69,-130,-69,-125,-69,-120,-69,-110,-69,40,-69,235,-69,275,-69,280,-69,285,-69,290,-69,295,-69,300,-64,-140,-64,-135,-64,-130,-64,-125,-64,-120,-64,-115,-64,-110,-64,-105,-64,40,-64,45,-64,50,-64,55,-64,235,-64,240,-64,245,-64,250,-64,255,-64,270,-64,275,-64,280,-64,285,-64,290,-64,295,-64,300,-64,305,-59,-140,-59,-135,-59,-130,-59,-125,-59,-120,-59,-115,-59,-110,-59,-105,-59,-100,-59,35,-59,40,-59,45,-59,50,-59,55,-59,60,-59,235,-59,240,-59,245,-59,250,-59,255,-59,260,-59,265,-59,270,-59,275,-59,280,-59,285,-59,290,-59,295,-59,300,-59,305,-54,-140,-54,-135,-54,-130,-54,-125,-54,-120,-54,-115,-54,-110,-54,-105,-54,-100,-54,35,-54,40,-54,45,-54,50,-54,55,-54,60,-54,65,-54,230,-54,235,-54,240,-54,245,-54,250,-54,255,-54,260,-54,265,-54,270,-54,275,-54,280,-54,285,-54,290,-54,295,-54,300,-54,305,-49,-140,-49,-135,-49,-130,-49,-125,-49,-120,-49,-115,-49,-110,-49,-105,-49,-100,-49,-95,-49,30,-49,35,-49,40,-49,45,-49,50,-49,55,-49,60,-49,65,-49,90,-49,230,-49,235,-49,240,-49,245,-49,250,-49,255,-49,260,-49,265,-49,270,-49,275,-49,280,-49,285,-49,290,-49,295,-49,300,-44,-140,-44,-135,-44,-130,-44,-125,-44,-120,-44,-115,-44,-110,-44,-105,-44,-100,-44,-95,-44,-90,-44,-85,-44,30,-44,35,-44,40,-44,45,-44,50,-44,55,-44,60,-44,65,-44,70,-44,90,-44,95,-44,230,-44,235,-44,240,-44,245,-44,250,-44,255,-44,260,-44,265,-44,270,-44,275,-44,280,-44,285,-44,290,-44,295,-39,-140,-39,-135,-39,-130,-39,-125,-39,-120,-39,-115,-39,-110,-39,-105,-39,-100,-39,-95,-39,-90,-39,-85,-39,-80,-39,30,-39,35,-39,40,-39,45,-39,50,-39,55,-39,60,-39,65,-39,70,-39,90,-39,95,-39,245,-39,250,-39,255,-39,260,-39,265,-39,270,-39,275,-39,280,-39,285,-39,290,-34,-140,-34,-135,-34,-130,-34,-125,-34,-120,-34,-115,-34,-110,-34,-105,-34,-100,-34,-95,-34,-90,-34,-85,-34,-80,-34,25,-34,30,-34,35,-34,40,-34,45,-34,50,-34,55,-34,60,-34,65,-34,70,-34,75,-34,90,-34,95,-34,250,-34,255,-34,260,-34,265,-34,270,-34,275,-34,285,-34,290,-29,-150,-29,-145,-29,-140,-29,-135,-29,-130,-29,-125,-29,-120,-29,-115,-29,-110,-29,-105,-29,-100,-29,-95,-29,-90,-29,-85,-29,-80,-29,25,-29,30,-29,35,-29,40,-29,45,-29,50,-29,55,-29,60,-29,65,-29,70,-29,75,-29,80,-29,100,-29,255,-29,260,-29,265,-29,270,-29,285,-24,-150,-24,-145,-24,-140,-24,-135,-24,-130,-24,-125,-24,-120,-24,-115,-24,-110,-24,-105,-24,-100,-24,-95,-24,-90,-24,-85,-24,-80,-24,30,-24,35,-24,40,-24,45,-24,50,-24,55,-24,60,-24,65,-24,70,-24,75,-24,80,-24,285,-19,-155,-19,-150,-19,-145,-19,-140,-19,-135,-19,-130,-19,-125,-19,-120,-19,-115,-19,-110,-19,-105,-19,-100,-19,-95,-19,-90,-19,-85,-19,-80,-19,-75,-19,30,-19,35,-19,40,-19,45,-19,50,-19,55,-19,60,-19,65,-19,70,-19,75,-19,240,-19,295,-19,320,-14,-155,-14,-150,-14,-145,-14,-140,-14,-135,-14,-130,-14,-125,-14,-120,-14,-115,-14,-110,-14,-105,-14,-100,-14,-95,-14,-90,-14,-85,-14,-80,-14,-75,-14,-70,-14,30,-14,35,-14,40,-14,45,-14,50,-14,55,-14,60,-14,65,-14,70,-14,75,-14,215,-14,220,-14,225,-14,280,-14,285,-14,290,-9,-160,-9,-155,-9,-150,-9,-145,-9,-140,-9,-135,-9,-130,-9,-125,-9,-120,-9,-115,-9,-110,-9,-105,-9,-100,-9,-95,-9,-90,-9,-85,-9,-80,-9,25,-9,30,-9,35,-9,40,-9,45,-9,50,-9,55,-9,60,-9,65,-9,70,-9,75,-9,210,-9,240,-9,245,-9,275,-9,280,-9,285,-9,290,-4,-160,-4,-155,-4,-150,-4,-145,-4,-140,-4,-135,-4,-130,-4,-125,-4,-120,-4,-115,-4,-110,-4,-105,-4,-100,-4,-95,-4,-90,-4,20,-4,25,-4,30,-4,35,-4,40,-4,45,-4,50,-4,55,-4,60,-4,65,-4,70,-4,75,-4,80,-4,205,-4,225,-4,230,-4,240,-4,265,-4,275,1,-160,1,-155,1,-150,1,-145,1,-140,1,-135,1,-130,1,-125,1,-120,1,-115,1,-110,1,-105,1,20,1,25,1,30,1,35,1,40,1,45,1,50,1,55,1,60,1,65,1,70,1,75,1,80,1,85,1,200,1,205,1,220,1,225,1,230,1,235,1,245,6,-155,6,-150,6,-145,6,-140,6,-135,6,-130,6,-125,6,-120,6,-115,6,-110,6,-105,6,20,6,25,6,30,6,35,6,40,6,45,6,50,6,55,6,60,6,65,6,70,6,75,6,80,6,85,6,90,6,195,6,205,6,225,6,230,11,-155,11,-150,11,-145,11,-140,11,-135,11,-130,11,-125,11,-120,11,-115,11,-110,11,-15,11,-10,11,-5,11,15,11,20,11,25,11,30,11,35,11,40,11,45,11,50,11,55,11,60,11,65,11,70,11,75,11,80,11,85,11,90,11,95,11,205,11,235,16,-155,16,-150,16,-145,16,-140,16,-135,16,-130,16,-125,16,-120,16,-25,16,-20,16,-15,16,-10,16,-5,16,0,16,5,16,10,16,15,16,20,16,25,16,30,16,35,16,40,16,45,16,50,16,55,16,60,16,65,16,70,16,75,16,80,16,85,16,90,16,95,16,100,16,160,16,200,16,245,16,250,21,-170,21,-150,21,-145,21,-140,21,-135,21,-25,21,-20,21,-15,21,-10,21,-5,21,0,21,5,21,10,21,15,21,20,21,25,21,30,21,35,21,40,21,45,21,50,21,55,21,60,21,65,21,70,21,75,21,80,21,85,21,90,21,95,21,100,21,155,21,210,21,250,26,-175,26,-170,26,-30,26,-25,26,-20,26,-15,26,-10,26,-5,26,0,26,5,26,10,26,15,26,20,26,25,26,30,26,35,26,40,26,45,26,50,26,55,26,60,26,65,26,70,26,75,26,80,26,85,26,90,26,150,26,155,26,160,26,200,26,205,26,210,26,215,31,-185,31,-180,31,-175,31,-170,31,-30,31,-25,31,-20,31,-15,31,-10,31,-5,31,0,31,5,31,10,31,15,31,20,31,25,31,30,31,35,31,40,31,45,31,50,31,55,31,60,31,65,31,70,31,75,31,90,31,95,31,100,31,150,31,155,31,160,31,200,31,205,31,210,31,215,31,240,36,-205,36,-200,36,-195,36,-190,36,-185,36,-180,36,-155,36,-30,36,-25,36,-20,36,-15,36,-10,36,-5,36,0,36,5,36,10,36,15,36,20,36,25,36,30,36,35,36,40,36,45,36,50,36,55,36,60,36,65,36,70,36,75,36,85,36,90,36,95,36,100,36,105,36,110,36,150,36,155,36,160,36,165,36,190,36,195,36,200,36,205,36,210,41,-210,41,-205,41,-200,41,-195,41,-180,41,-175,41,-150,41,-30,41,-25,41,-20,41,-15,41,-10,41,-5,41,0,41,5,41,10,41,15,41,20,41,25,41,30,41,35,41,40,41,45,41,50,41,55,41,60,41,65,41,70,41,80,41,85,41,90,41,95,41,100,41,105,41,110,41,115,41,150,41,155,41,160,41,165,41,170,41,190,41,195,41,200,41,205,41,210,41,220,46,-220,46,-210,46,-205,46,-200,46,-165,46,-30,46,-25,46,-20,46,-15,46,-10,46,-5,46,0,46,5,46,10,46,15,46,20,46,25,46,30,46,35,46,40,46,45,46,50,46,55,46,60,46,65,46,70,46,80,46,85,46,90,46,95,46,100,46,105,46,110,46,115,46,140,46,145,46,150,46,155,46,160,46,165,46,170,46,175,46,180,46,185,46,190,46,195,46,200,46,205,46,210,46,215,46,220,46,225,46,230,51,-215,51,-210,51,-205,51,-200,51,-195,51,-25,51,-20,51,-15,51,-10,51,-5,51,0,51,5,51,10,51,15,51,20,51,25,51,30,51,35,51,40,51,45,51,50,51,55,51,60,51,65,51,75,51,80,51,85,51,90,51,95,51,100,51,120,51,125,51,130,51,135,51,140,51,145,51,150,51,155,51,160,51,165,51,170,51,175,51,180,51,185,51,190,51,195,51,200,51,205,51,210,51,215,51,220,51,225,51,230,51,235,56,-220,56,-215,56,-210,56,-205,56,-200,56,-195,56,-165,56,-25,56,-20,56,-15,56,-10,56,-5,56,0,56,5,56,10,56,15,56,20,56,25,56,30,56,35,56,40,56,45,56,50,56,55,56,60,56,65,56,75,56,80,56,85,56,90,56,95,56,105,56,110,56,115,56,120,56,125,56,130,56,135,56,140,56,145,56,150,56,155,56,160,56,165,56,170,56,175,56,180,56,185,56,190,56,195,56,200,56,205,56,210,56,215,56,220,56,225,56,230,56,235,56,240,61,-230,61,-225,61,-220,61,-215,61,-210,61,-205,61,-200,61,-195,61,-190,61,-185,61,-180,61,-175,61,-170,61,-165,61,-15,61,-10,61,-5,61,0,61,5,61,10,61,15,61,20,61,25,61,30,61,35,61,40,61,45,61,50,61,55,61,60,61,65,61,70,61,75,61,80,61,85,61,90,61,95,61,100,61,105,61,110,61,115,61,120,61,125,61,130,61,135,61,140,61,145,61,150,61,155,61,160,61,165,61,170,61,175,61,180,61,185,61,190,61,195,61,200,61,205,61,210,61,215,61,220,61,225,61,230,61,235,61,240,66,-230,66,-225,66,-220,66,-215,66,-210,66,-205,66,-200,66,-195,66,-190,66,-185,66,-180,66,-175,66,-170,66,-165,66,-160,66,-15,66,-10,66,-5,66,0,66,5,66,10,66,15,66,20,66,75,66,80,66,85,66,90,66,95,66,100,66,105,66,110,66,115,66,120,66,125,66,130,66,135,66,140,66,145,66,150,66,155,66,160,66,165,66,170,66,175,66,180,66,185,66,190,66,195,66,200,66,205,66,210,66,215,66,220,66,225,66,230,66,235,66,240,66,260,66,265,71,-240,71,-235,71,-230,71,-225,71,-220,71,-215,71,-210,71,-205,71,-200,71,-195,71,-190,71,-185,71,-180,71,-175,71,-170,71,-165,71,-160,71,-155,71,-10,71,0,71,5,71,10,71,15,71,20,71,75,71,80,71,85,71,90,71,95,71,100,71,105,71,110,71,115,71,120,71,125,71,130,71,135,71,140,71,145,71,150,71,155,71,160,71,165,71,170,71,175,71,180,71,185,71,190,71,195,71,200,71,205,71,210,71,215,71,220,71,225,71,230,71,235,71,255,71,270,71,275,71,280,76,-245,76,-240,76,-235,76,-230,76,-225,76,-220,76,-215,76,-210,76,-205,76,-200,76,-195,76,-190,76,-185,76,-180,76,-175,76,-170,76,-165,76,-160,76,-155,76,-15,76,-10,76,-5,76,30,76,45,76,55,76,60,76,65,76,70,76,75,76,80,76,85,76,90,76,95,76,100,76,105,76,110,76,115,76,120,76,125,76,130,76,135,76,140,76,145,76,150,76,155,76,160,76,165,76,170,76,175,76,180,76,185,76,190,76,195,76,200,76,205,76,210,76,215,76,220,76,225,76,230,76,235,76,250,76,255,76,280,81,-245,81,-240,81,-235,81,-230,81,-225,81,-220,81,-215,81,-210,81,-205,81,-200,81,-195,81,-190,81,-185,81,-180,81,-175,81,-170,81,-165,81,-160,81,-155,81,-150,81,-15,81,-10,81,-5,81,0,81,30,81,35,81,40,81,45,81,60,81,65,81,70,81,75,81,80,81,85,81,90,81,95,81,100,81,105,81,110,81,115,81,120,81,125,81,130,81,135,81,140,81,145,81,150,81,155,81,160,81,165,81,170,81,175,81,180,81,185,81,190,81,195,81,200,81,205,81,210,81,215,81,220,81,225,81,230,81,235,81,240,81,245,81,250,81,255,81,280,86,-245,86,-240,86,-235,86,-230,86,-225,86,-220,86,-215,86,-210,86,-205,86,-200,86,-195,86,-190,86,-185,86,-180,86,-175,86,-170,86,-165,86,-160,86,-155,86,-150,86,-145,86,-15,86,-10,86,-5,86,0,86,5,86,25,86,35,86,40,86,45,86,50,86,55,86,85,86,90,86,95,86,100,86,105,86,110,86,115,86,120,86,125,86,130,86,135,86,140,86,145,86,150,86,155,86,160,86,165,86,170,86,175,86,180,86,185,86,190,86,195,86,200,86,205,86,210,86,215,86,220,86,225,86,230,86,235,86,240,86,245,86,250,86,255,86,260,86,285,91,-245,91,-240,91,-235,91,-230,91,-225,91,-220,91,-215,91,-210,91,-205,91,-200,91,-195,91,-190,91,-185,91,-180,91,-175,91,-170,91,-165,91,-160,91,-155,91,-150,91,-145,91,-140,91,-135,91,-130,91,-125,91,0,91,5,91,10,91,15,91,20,91,25,91,30,91,35,91,40,91,45,91,50,91,55,91,70,91,75,91,80,91,85,91,90,91,95,91,100,91,105,91,110,91,115,91,120,91,125,91,130,91,135,91,140,91,145,91,150,91,155,91,160,91,165,91,170,91,175,91,180,91,185,91,190,91,195,91,200,91,205,91,210,91,215,91,220,91,225,91,230,91,235,91,240,91,245,91,250,91,255,91,260,91,265,91,270,96,-240,96,-235,96,-230,96,-225,96,-220,96,-215,96,-210,96,-205,96,-200,96,-195,96,-190,96,-185,96,-180,96,-175,96,-170,96,-165,96,-160,96,-155,96,-150,96,-145,96,-140,96,-135,96,-115,96,-110,96,-5,96,0,96,5,96,10,96,15,96,20,96,25,96,30,96,35,96,40,96,45,96,50,96,55,96,60,96,65,96,70,96,75,96,80,96,85,96,90,96,95,96,100,96,105,96,110,96,115,96,120,96,125,96,130,96,135,96,140,96,145,96,150,96,155,96,160,96,165,96,170,96,175,96,180,96,185,96,190,96,195,96,200,96,205,96,210,96,215,96,220,96,225,96,230,96,235,96,240,96,245,96,250,96,255,96,260,96,265,96,270,96,275,96,285,101,-255,101,-250,101,-245,101,-240,101,-235,101,-230,101,-225,101,-220,101,-215,101,-210,101,-205,101,-200,101,-195,101,-190,101,-185,101,-180,101,-175,101,-170,101,-165,101,-160,101,-155,101,-150,101,-145,101,-140,101,-135,101,-130,101,-125,101,-120,101,-115,101,-10,101,5,101,10,101,15,101,20,101,25,101,30,101,35,101,40,101,45,101,50,101,55,101,60,101,65,101,70,101,75,101,80,101,85,101,90,101,95,101,100,101,105,101,110,101,115,101,120,101,125,101,130,101,135,101,140,101,145,101,150,101,155,101,160,101,165,101,170,101,175,101,180,101,185,101,190,101,195,101,200,101,205,101,210,101,215,101,220,101,225,101,230,101,235,101,240,101,245,101,250,101,255,101,260,101,265,101,270,101,275,101,280,101,285,106,-255,106,-250,106,-245,106,-240,106,-235,106,-230,106,-225,106,-220,106,-215,106,-210,106,-205,106,-200,106,-195,106,-190,106,-185,106,-180,106,-175,106,-170,106,-165,106,-155,106,-150,106,-145,106,-140,106,-135,106,-130,106,-125,106,-120,106,-115,106,-15,106,-5,106,0,106,10,106,15,106,20,106,25,106,30,106,35,106,40,106,45,106,50,106,55,106,60,106,65,106,70,106,75,106,80,106,85,106,90,106,95,106,100,106,105,106,110,106,115,106,120,106,125,106,130,106,135,106,140,106,145,106,150,106,155,106,160,106,165,106,170,106,175,106,180,106,185,106,190,106,195,106,200,106,205,106,210,106,215,106,220,106,225,106,230,106,235,106,240,106,245,106,250,106,255,106,260,106,265,106,270,106,275,106,280,106,285,106,315,111,-325,111,-260,111,-255,111,-250,111,-245,111,-240,111,-235,111,-230,111,-225,111,-220,111,-215,111,-210,111,-205,111,-200,111,-195,111,-190,111,-185,111,-180,111,-175,111,-155,111,-150,111,-145,111,-140,111,-135,111,-130,111,-125,111,-5,111,25,111,45,111,50,111,55,111,60,111,65,111,70,111,75,111,80,111,85,111,90,111,95,111,100,111,105,111,110,111,115,111,120,111,125,111,130,111,135,111,140,111,145,111,150,111,155,111,160,111,165,111,170,111,175,111,180,111,185,111,190,111,195,111,200,111,205,111,210,111,215,111,220,111,225,111,230,111,235,111,240,111,245,111,250,111,255,111,260,111,265,111,270,111,315,111,320,116,-315,116,-310,116,-265,116,-260,116,-255,116,-250,116,-245,116,-240,116,-235,116,-230,116,-225,116,-220,116,-215,116,-210,116,-205,116,-200,116,-195,116,-190,116,-150,116,-145,116,-140,116,-135,116,-130,116,-125,116,-10,116,25,116,30,116,50,116,55,116,60,116,65,116,70,116,75,116,80,116,85,116,90,116,95,116,100,116,105,116,110,116,115,116,120,116,125,116,130,116,135,116,140,116,145,116,150,116,155,116,160,116,165,116,170,116,175,116,180,116,185,116,190,116,195,116,200,116,205,116,210,116,215,116,220,116,225,116,230,116,235,116,240,116,245,116,250,116,255,116,260,116,265,116,270,116,275,116,280,116,320,121,-330,121,-325,121,-320,121,-315,121,-310,121,-305,121,-300,121,-290,121,-285,121,-280,121,-275,121,-270,121,-265,121,-260,121,-255,121,-250,121,-245,121,-240,121,-235,121,-230,121,-225,121,-220,121,-215,121,-210,121,-205,121,-200,121,-195,121,-190,121,-155,121,-150,121,-145,121,-140,121,-90,121,15,121,20,121,25,121,30,121,35,121,45,121,50,121,55,121,60,121,65,121,70,121,75,121,80,121,85,121,90,121,95,121,100,121,105,121,110,121,115,121,120,121,125,121,130,121,135,121,140,121,145,121,150,121,155,121,160,121,165,121,170,121,175,121,180,121,185,121,190,121,195,121,200,121,205,121,210,121,215,121,220,121,225,121,230,121,235,121,240,121,245,121,250,121,255,121,260,121,265,121,270,121,275,121,280,121,285,121,290,121,295,121,300,121,305,121,310,121,325,121,330,121,335,121,340,126,-325,126,-320,126,-315,126,-310,126,-305,126,-300,126,-295,126,-290,126,-285,126,-280,126,-275,126,-270,126,-265,126,-260,126,-255,126,-250,126,-245,126,-240,126,-235,126,-230,126,-225,126,-220,126,-215,126,-210,126,-205,126,-200,126,-195,126,-190,126,-185,126,-140,126,-130,126,-100,126,-95,126,-90,126,-85,126,15,126,20,126,25,126,30,126,35,126,45,126,50,126,55,126,60,126,65,126,70,126,75,126,80,126,85,126,90,126,95,126,100,126,105,126,110,126,115,126,120,126,125,126,130,126,135,126,140,126,145,126,150,126,155,126,160,126,165,126,170,126,175,126,180,126,185,126,190,126,195,126,200,126,205,126,210,126,215,126,220,126,225,126,230,126,235,126,240,126,245,126,250,126,255,126,260,126,265,126,270,126,275,126,280,126,285,126,290,126,295,126,300,126,305,126,310,126,315,126,320,126,325,126,330,126,335,126,340,126,345,126,350,126,355,131,-360,131,-355,131,-350,131,-345,131,-335,131,-330,131,-325,131,-320,131,-315,131,-310,131,-305,131,-300,131,-295,131,-290,131,-285,131,-280,131,-275,131,-270,131,-265,131,-260,131,-255,131,-250,131,-245,131,-240,131,-235,131,-230,131,-225,131,-220,131,-215,131,-210,131,-205,131,-200,131,-195,131,-190,131,-185,131,-180,131,-175,131,-145,131,-140,131,-130,131,-105,131,-100,131,-95,131,-90,131,-85,131,-80,131,-45,131,-40,131,-35,131,-30,131,25,131,30,131,35,131,40,131,55,131,60,131,65,131,80,131,85,131,90,131,95,131,100,131,105,131,110,131,115,131,120,131,125,131,130,131,135,131,140,131,145,131,150,131,155,131,160,131,165,131,170,131,175,131,180,131,185,131,190,131,195,131,200,131,205,131,210,131,215,131,220,131,225,131,230,131,235,131,240,131,245,131,250,131,255,131,260,131,265,131,270,131,275,131,280,131,285,131,290,131,295,131,300,131,305,131,310,131,315,131,320,131,325,131,330,131,335,131,340,131,345,131,350,131,355,136,-360,136,-355,136,-330,136,-325,136,-320,136,-315,136,-310,136,-305,136,-300,136,-295,136,-290,136,-285,136,-280,136,-275,136,-270,136,-265,136,-260,136,-255,136,-250,136,-245,136,-240,136,-235,136,-215,136,-210,136,-195,136,-190,136,-185,136,-180,136,-170,136,-165,136,-145,136,-140,136,-135,136,-105,136,-100,136,-95,136,-90,136,-85,136,-80,136,-75,136,-70,136,-65,136,35,136,40,136,45,136,50,136,55,136,60,136,65,136,70,136,75,136,80,136,90,136,105,136,110,136,115,136,120,136,125,136,130,136,135,136,140,136,145,136,150,136,155,136,160,136,165,136,170,136,175,136,180,136,185,136,190,136,195,136,200,136,205,136,210,136,215,136,220,136,225,136,230,136,235,136,240,136,245,136,250,136,255,136,260,136,265,136,270,136,275,136,280,136,285,136,290,136,295,136,300,136,305,136,310,136,315,136,320,136,325,136,330,136,335,136,340,136,345,136,350,136,355,141,-320,141,-315,141,-310,141,-305,141,-300,141,-225,141,-220,141,-215,141,-210,141,-190,141,-185,141,-175,141,-170,141,-165,141,-160,141,-155,141,-150,141,-145,141,-140,141,-105,141,-100,141,-95,141,-90,141,-85,141,-80,141,-75,141,-70,141,-65,141,-60,141,-55,141,50,141,55,141,60,141,135,141,140,141,145,141,150,141,155,141,160,141,165,141,170,141,175,141,180,141,185,141,190,141,195,141,200,141,205,141,210,141,215,141,220,141,225,141,230,141,235,141,240,141,245,141,250,141,255,141,260,141,265,141,270,141,275,141,280,141,285,141,290,141,295,141,300,141,305,141,310,141,315,146,-245,146,-240,146,-230,146,-215,146,-200,146,-190,146,-185,146,-175,146,-170,146,-165,146,-160,146,-155,146,-110,146,-105,146,-100,146,-95,146,-90,146,-85,146,-80,146,-75,146,-70,146,-65,146,-60,146,-55,146,-50,146,110,146,140,146,165,146,170,146,175,146,180,146,185,146,190,146,195,146,200,146,205,146,210,146,215,146,220,146,225,146,230,146,235,146,240,146,250,146,255,151,-230,151,-225,151,-220,151,-215,151,-200,151,-190,151,-185,151,-180,151,-175,151,-170,151,-165,151,-115,151,-110,151,-105,151,-100,151,-95,151,-90,151,-85,151,-80,151,-75,151,-70,151,-65,151,-60,151,-55,151,-50,151,-45,151,-40,151,115,151,120,151,125,151,180,151,185,151,190,151,195,151,200,151,205,151,210,151,215,151,220,151,225,151,275,151,280,151,285,151,290,156,-225,156,-220,156,-200,156,-195,156,-170,156,-165,156,-160,156,-155,156,-145,156,-140,156,-135,156,-130,156,-125,156,-120,156,-115,156,-110,156,-105,156,-100,156,-95,156,-90,156,-85,156,-80,156,-75,156,-70,156,-65,156,-60,156,-55,156,-50,156,-45,156,-40,156,30,156,35,156,45,156,200,161,-190,161,-185,161,-180,161,-165,161,-160,161,-155,161,-150,161,-145,161,-140,161,-130,161,-125,161,-120,161,-115,161,-110,161,-105,161,-100,161,-95,161,-90,161,-85,161,-80,161,-75,161,-70,161,-65,161,-60,161,-55,161,-50,161,-45,161,-40,161,-35,161,40,161,45,161,95,161,100,161,185,161,190,161,195,166,-160,166,-155,166,-150,166,-145,166,-140,166,-135,166,-85,166,-80,166,-75,166,-70,166,-65,166,-60,166,-55,166,-50];
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* embers around the globe */
+  (function () {
+    var c = document.getElementById('embers');
+    if (!c || reduced) return;
+    var ctx = c.getContext('2d'), W = 0, H = 0, P = [];
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    function size() {
+      var r = c.parentElement.getBoundingClientRect();
+      W = r.width; H = r.height;
+      c.width = W * dpr; c.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = Math.max(26, Math.min(64, Math.round(W * H / 9500)));
+      P = [];
+      for (var i = 0; i < n; i++) P.push({
+        x: Math.random() * W, y: Math.random() * H,
+        r: .5 + Math.random() * 1.4, s: .1 + Math.random() * .28,
+        a: .1 + Math.random() * .38, p: Math.random() * 6.28
+      });
+    }
+    size(); window.addEventListener('resize', size);
+    requestAnimationFrame(function frame(t) {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < P.length; i++) {
+        var q = P[i];
+        q.y -= q.s; q.x += Math.sin(t / 1400 + q.p) * .14;
+        if (q.y < -4) { q.y = H + 4; q.x = Math.random() * W; }
+        var tw = .6 + .4 * Math.sin(t / 900 + q.p);
+        ctx.beginPath(); ctx.arc(q.x, q.y, q.r, 0, 6.283);
+        ctx.fillStyle = 'rgba(242,180,0,' + (q.a * tw).toFixed(3) + ')'; ctx.fill();
+      }
+      requestAnimationFrame(frame);
+    });
+  })();
+
+  /* the rotating earth: orthographic projection, gold dots for land */
+  (function () {
+    var cv = document.getElementById('globe');
+    if (!cv) return;
+    var ctx = cv.getContext('2d');
+    var W = 0, cx = 0, cy = 0, R = 0;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var TILT = 0.42, cT = Math.cos(TILT), sT = Math.sin(TILT);
+    var D2R = Math.PI / 180;
+    /* precompute land in radians; align with the brand mark: globe center 50%/46.9%, r 29.7% */
+    var pts = [];
+    for (var i = 0; i + 1 < LAND.length; i += 2) {
+      var la = (LAND[i] / 2) * D2R, lo = (LAND[i + 1] / 2) * D2R;
+      pts.push({ cf: Math.cos(la), sf: Math.sin(la), lo: lo });
+    }
+    function size() {
+      W = cv.parentElement.getBoundingClientRect().width;
+      cv.width = W * dpr; cv.height = W * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx = W / 2; cy = W * 0.469; R = W * 0.34;
+    }
+    size(); window.addEventListener('resize', function () { size(); if (reduced) draw(-0.6); });
+
+    function projX(cf, sf, lo, th) { var l = lo + th; return cf * Math.sin(l); }
+    function projY(cf, sf, lo, th) { var l = lo + th; return sf * cT - cf * Math.cos(l) * sT; }
+    function projZ(cf, sf, lo, th) { var l = lo + th; return sf * sT + cf * Math.cos(l) * cT; }
+
+    function graticule(th) {
+      ctx.lineWidth = .7;
+      ctx.strokeStyle = 'rgba(217,164,0,.13)';
+      var t, x, y, z, i, started;
+      /* parallels */
+      for (var p = -60; p <= 60; p += 30) {
+        var cf = Math.cos(p * D2R), sf = Math.sin(p * D2R);
+        ctx.beginPath();
+        for (i = 0; i <= 120; i++) {
+          t = i / 120 * 2 * Math.PI;
+          x = cf * Math.sin(t + th); z = cf * Math.cos(t + th);
+          y = sf * cT - z * sT;
+          if (i === 0) ctx.moveTo(cx + R * x, cy - R * y); else ctx.lineTo(cx + R * x, cy - R * y);
+        }
+        ctx.stroke();
+      }
+      /* meridians (great circles through the poles) */
+      for (var m = 0; m < 180; m += 30) {
+        var lam = m * D2R;
+        ctx.beginPath();
+        for (i = 0; i <= 120; i++) {
+          t = i / 120 * 2 * Math.PI;
+          x = Math.cos(t) * Math.sin(lam + th); z = Math.cos(t) * Math.cos(lam + th);
+          y = Math.sin(t) * cT - z * sT;
+          if (i === 0) ctx.moveTo(cx + R * x, cy - R * y); else ctx.lineTo(cx + R * x, cy - R * y);
+        }
+        ctx.stroke();
+      }
+    }
+
+    function draw(th) {
+      ctx.clearRect(0, 0, W, W);
+      graticule(th);
+      /* land dots, front hemisphere only, brighter near the viewer */
+      var s = W > 220 ? 2.2 : 1.9;
+      for (var i = 0; i < pts.length; i++) {
+        var q = pts[i];
+        var z = projZ(q.cf, q.sf, q.lo, th);
+        if (z <= 0.02) continue;
+        var x = projX(q.cf, q.sf, q.lo, th), y = projY(q.cf, q.sf, q.lo, th);
+        ctx.fillStyle = 'rgba(242,180,0,' + (0.3 + 0.65 * z).toFixed(3) + ')';
+        ctx.fillRect(cx + R * x - s / 2, cy - R * y - s / 2, s, s);
+      }
+      /* limb */
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, 6.283);
+      ctx.strokeStyle = 'rgba(217,164,0,.45)'; ctx.lineWidth = 1; ctx.stroke();
+    }
+
+    if (reduced) { draw(-0.6); return; }
+    var SPEED = 2 * Math.PI / 26000;
+    requestAnimationFrame(function frame(t) {
+      draw(t * SPEED - 0.6);
+      requestAnimationFrame(frame);
+    });
+  })();
+
+  /* the Iran cost clock (same anchor as the macro dashboard) */
+  var IRAN0 = 113.3e9, T0 = Date.UTC(2026, 5, 16), PER_MS = 1e9 / 86400000;
+  function tickIran() {
+    var v = '$' + ((IRAN0 + (Date.now() - T0) * PER_MS) / 1e9).toFixed(3) + ' B';
+    var ns = document.querySelectorAll('.iranval');
+    for (var i = 0; i < ns.length; i++) ns[i].textContent = v;
+  }
+  tickIran(); setInterval(tickIran, 1000);
+
+  /* live tape + directory stats, fail-soft */
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function fj(u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(r.status); return r; }); }
+  Promise.allSettled([
+    fj('https://macro.themicrocapminute.in/data/macro.json').then(function (r) { return r.json(); }),
+    fj('https://tracker.themicrocapminute.in/feed.xml').then(function (r) { return r.text(); })
+  ]).then(function (res) {
+    var items = [];
+    items.push('<span class="ti"><b>Estimate</b> Iran operations cost clock <span class="iranval"></span> and counting</span>');
+    var m = res[0].status === 'fulfilled' ? res[0].value : null;
+    var f = res[1].status === 'fulfilled' ? res[1].value : null;
+    if (m) {
+      if (m.inflation) items.push('<span class="ti"><b>Macro</b> US inflation ' + m.inflation.cpi_yoy + '% (' + esc(m.inflation.as_of) + ')</span>');
+      if (m.borrowing) items.push('<span class="ti"><b>Macro</b> 10-year Treasury ' + m.borrowing.y10 + '%</span>');
+      if (m.mortgage) items.push('<span class="ti"><b>Macro</b> 30-year mortgage ' + m.mortgage.rate + '%</span>');
+      if (m.debt) items.push('<span class="ti"><b>Macro</b> national debt $' + (m.debt.total / 1e12).toFixed(1) +
+        ' trillion, $' + Math.round(m.debt.per_person).toLocaleString('en-US') + ' per American</span>');
+      var sm = document.getElementById('statMacro');
+      if (sm && m.inflation && m.borrowing) sm.textContent = 'inflation ' + m.inflation.cpi_yoy + '% \u00B7 10Y ' + m.borrowing.y10 + '%';
+    }
+    if (f) {
+      try {
+        var doc = new DOMParser().parseFromString(f, 'text/xml');
+        var titles = doc.querySelectorAll('entry > title');
+        for (var i = 0; i < Math.min(3, titles.length); i++) {
+          var t = titles[i].textContent.replace(/\s+/g, ' ').trim();
+          if (t.length > 88) t = t.slice(0, 87).replace(/\s+\S*$/, '') + '\u2026';
+          items.push('<span class="ti"><b>Filed</b> ' + esc(t) + '</span>');
+        }
+        var upd = doc.querySelector('feed > updated');
+        var st = document.getElementById('statTracker');
+        if (upd && st) {
+          var d = new Date(upd.textContent);
+          if (!isNaN(d)) st.textContent = 'ledger updated ' + d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+      } catch (e) { }
+    }
+    items.push('<span class="ti"><b>Tracker</b> 30 superinvestors under watch</span>');
+    items.push('<span class="ti"><b>School</b> 62 chapters, free forever</span>');
+    items.push('<span class="ti"><b>House rule</b> every number links to its source</span>');
+    var track = document.getElementById('tapeTrack');
+    track.innerHTML = items.map(function (s) { return s + '<span class="tsep"></span>'; }).join('');
+    track.innerHTML += track.innerHTML;
+    tickIran();
+    var half = track.scrollWidth / 2;
+    if (half > 0) track.style.animationDuration = Math.max(30, Math.round(half / 55)) + 's';
+  });
+})();
+</script>
 
 </body></html>
