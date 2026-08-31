@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "in.themicrocapminute.app",
+    "sha256_cert_fingerprints": [
+      "4F:C5:81:7B:B9:CC:8B:70:CF:15:81:53:E7:86:3F:5F:6A:88:87:D3:6D:A7:98:22:5B:A6:7A:19:A3:FE:9C:CA"
+    ]
+  }
+}]
